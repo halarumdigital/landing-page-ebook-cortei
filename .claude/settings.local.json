@@ -1,12 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)",
-      "Bash(netstat:*)",
-      "Bash(findstr:*)",
-      "Bash(tasklist:*)",
-      "Bash(taskkill:*)",
-      "Bash(npm run dev:*)"
+      "Bash(node -e \"const mysql = require(''mysql2/promise''); (async () => { const conn = await mysql.createConnection({ host: process.env.MYSQL_HOST || ''31.97.91.252'', port: parseInt(process.env.MYSQL_PORT || ''3306''), user: process.env.MYSQL_USER || ''corteiia_lp'', password: process.env.MYSQL_PASSWORD || ''ElRn8UGuONJq'', database: process.env.MYSQL_DATABASE || ''corteiia_lp'' }); await conn.query(''ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS meta_pixel TEXT''); await conn.query(''ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS google_analytics TEXT''); await conn.query(''ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS google_tag_manager TEXT''); console.log(''Colunas de scripts adicionadas''); await conn.end(); })().catch(console.error);\")"
     ],
     "deny": [],
     "ask": []

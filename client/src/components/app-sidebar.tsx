@@ -1,4 +1,4 @@
-import { Users, LayoutDashboard, ListChecks } from "lucide-react";
+import { Users, LayoutDashboard, ListChecks, Settings, Code } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +28,16 @@ const menuItems = [
     title: "Usuários",
     url: "/dashboard/usuarios",
     icon: Users,
+  },
+  {
+    title: "Scripts",
+    url: "/dashboard/scripts",
+    icon: Code,
+  },
+  {
+    title: "Configurações",
+    url: "/dashboard/configuracoes",
+    icon: Settings,
   },
 ];
 

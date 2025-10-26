@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { Scissors } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { insertLeadSchema, type InsertLead } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +20,15 @@ import { apiRequest } from "@/lib/queryClient";
 export default function Landing() {
   const { toast } = useToast();
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Fetch site settings for dynamic texts
+  const { data: settingsData } = useQuery<any>({
+    queryKey: ["/api/settings"],
+    retry: false,
+    staleTime: Infinity,
+  });
+
+  const settings = settingsData?.settings;
 
   const form = useForm<InsertLead>({
     resolver: zodResolver(insertLeadSchema),
@@ -97,8 +105,14 @@ export default function Landing() {
         <header className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center space-x-3">
-              <Scissors className="w-10 h-10 text-white" data-testid="icon-logo" />
-              <span className="text-xl font-bold tracking-wider" data-testid="text-brand">BARBEARIA MODERNA</span>
+              {settings?.logo_path && (
+                <img
+                  src={settings.logo_path}
+                  alt="Logo"
+                  className="h-12 w-auto object-contain"
+                  data-testid="logo-image"
+                />
+              )}
             </div>
           </div>
         </header>
@@ -109,28 +123,21 @@ export default function Landing() {
               <p className="font-semibold tracking-widest text-sm uppercase" data-testid="text-eyebrow">
                 E-BOOK GRATUITO
               </p>
-              
+
               <h1 className="text-4xl md:text-5xl font-bold leading-tight" data-testid="text-headline">
-                7 Dicas Infalíveis para Lotar sua Agenda de Clientes
+                {settings?.hero_title || '7 Dicas Infalíveis para Lotar sua Agenda de Clientes'}
               </h1>
-              
+
               <h2 className="text-2xl font-semibold" data-testid="text-subheadline">
-                Sua barbearia ou salão está realmente atraindo novos clientes?
+                {settings?.hero_subtitle || 'Sua barbearia ou salão está realmente atraindo novos clientes?'}
               </h2>
-              
+
               <p className="text-base leading-relaxed" data-testid="text-description-1">
-                Sua barbearia ou salão não pode mais ser reativo. Nós realizamos
-                pesquisas constantes para descobrir o que gera os melhores
-                resultados e o que é perda de tempo, para que você possa ser
-                proativo. Seja para ajustar as estratégias para o próximo
-                semestre ou já planejar o próximo ano, ter o método certo é
-                essencial.
+                {settings?.hero_text_1 || 'Sua barbearia ou salão não pode mais ser reativo. Nós realizamos pesquisas constantes para descobrir o que gera os melhores resultados e o que é perda de tempo, para que você possa ser proativo. Seja para ajustar as estratégias para o próximo semestre ou já planejar o próximo ano, ter o método certo é essencial.'}
               </p>
-              
+
               <p className="text-base leading-relaxed" data-testid="text-description-2">
-                Nossos especialistas compilaram as 7 dicas mais eficazes neste
-                e-book gratuito, focando em criar um serviço de barbearia ou
-                salão que impulsiona os resultados e fideliza clientes.
+                {settings?.hero_text_2 || 'Nossos especialistas compilaram as 7 dicas mais eficazes neste e-book gratuito, focando em criar um serviço de barbearia ou salão que impulsiona os resultados e fideliza clientes.'}
               </p>
             </div>
 
@@ -171,9 +178,12 @@ export default function Landing() {
                 </div>
               ) : (
                 <>
-                  <h3 className="font-bold text-lg text-gray-800 mb-6" data-testid="text-form-title">
-                    BAIXE SEU E-BOOK GRÁTIS
-                  </h3>
+                  <div className="text-center mb-8">
+                    <h3 className="font-black text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-600 uppercase tracking-tight leading-tight" data-testid="text-form-title">
+                      {settings?.site_title || 'BAIXE SEU E-BOOK GRÁTIS'}
+                    </h3>
+                    <div className="mt-2 h-1 w-20 bg-gradient-to-r from-primary to-yellow-600 mx-auto rounded-full"></div>
+                  </div>
 
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -225,7 +235,7 @@ export default function Landing() {
                             <FormControl>
                               <Input
                                 type="tel"
-                                placeholder="WhatsApp com DDD* (ex: (11) 99999-9999)"
+                                placeholder="WhatsApp com DDD*"
                                 {...field}
                                 className="w-full bg-gray-100 border-transparent rounded-lg text-gray-700 placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-primary"
                                 data-testid="input-whatsapp"

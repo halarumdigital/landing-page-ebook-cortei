@@ -17,7 +17,12 @@ export const insertLeadSchema = createInsertSchema(leads).omit({
 }).extend({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("Email inválido"),
-  whatsapp: z.string().regex(/^\(\d{2}\)\s?\d{4,5}-?\d{4}$/, "WhatsApp deve estar no formato (DD) 99999-9999"),
+  whatsapp: z.string().refine((val) => {
+    // Remove todos os caracteres não numéricos
+    const digitsOnly = val.replace(/\D/g, '');
+    // Deve ter 10 ou 11 dígitos (DDD + número)
+    return digitsOnly.length === 10 || digitsOnly.length === 11;
+  }, "WhatsApp deve ter 10 ou 11 dígitos (DDD + número)"),
 });
 
 export type InsertLead = z.infer<typeof insertLeadSchema>;
