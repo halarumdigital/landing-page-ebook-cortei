@@ -5,13 +5,27 @@ import { storage } from "./storage";
 import { insertLeadSchema } from "@shared/schema";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 import { authRouter, requireAuth } from "./auth";
 import { upload, pdfUpload } from "./upload";
 
+// Get __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve uploaded files - MUST be before other routes
+  // In production (dist/), go up one level. In dev, go up one level from server/
+  const uploadPath = process.env.NODE_ENV === 'production'
+    ? path.join(__dirname, '..', 'upload')
+    : path.join(process.cwd(), 'upload');
+
+  console.log(`[routes] Serving uploads from: ${uploadPath}`);
+  app.use('/upload', express.static(uploadPath));
+
   // Auth routes
   app.use("/api/auth", authRouter);
-  
+
   // Users route (protected)
   app.get("/api/users", requireAuth, async (req, res) => {
     try {
@@ -225,13 +239,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Buscar caminho do ebook no banco de dados
       const settings = await storage.getSiteSettings();
 
+      const rootPath = process.env.NODE_ENV === 'production'
+        ? path.join(__dirname, '..')
+        : process.cwd();
+
       let ebookPath: string;
       if (settings?.ebook_path) {
         // Se existe ebook cadastrado, usar do banco
-        ebookPath = path.join(process.cwd(), settings.ebook_path.replace(/^\//, ''));
+        ebookPath = path.join(rootPath, settings.ebook_path.replace(/^\//, ''));
       } else {
         // Fallback para o arquivo padrão
-        ebookPath = path.join(process.cwd(), "server", "assets", "7-Dicas-Infaliveis.pdf");
+        ebookPath = process.env.NODE_ENV === 'production'
+          ? path.join(__dirname, "assets", "7-Dicas-Infaliveis.pdf")
+          : path.join(process.cwd(), "server", "assets", "7-Dicas-Infaliveis.pdf");
       }
 
       if (!fs.existsSync(ebookPath)) {
@@ -488,9 +508,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
-
-  // Serve uploaded files
-  app.use('/upload', express.static(path.join(process.cwd(), 'upload')));
 
   const httpServer = createServer(app);
 

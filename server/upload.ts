@@ -1,10 +1,22 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+// Get __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Criar pasta upload se não existir
-const uploadDir = path.join(process.cwd(), 'upload');
+// In production (dist/), go up one level. In dev, go up one level from server/
+const uploadDir = process.env.NODE_ENV === 'production'
+  ? path.join(__dirname, '..', 'upload')
+  : path.join(process.cwd(), 'upload');
+
+console.log(`[upload] Upload directory: ${uploadDir}`);
+
 if (!fs.existsSync(uploadDir)) {
+  console.log(`[upload] Creating upload directory: ${uploadDir}`);
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
