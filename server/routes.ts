@@ -4,8 +4,31 @@ import { storage } from "./storage";
 import { insertLeadSchema } from "@shared/schema";
 import path from "path";
 import fs from "fs";
+import { authRouter, requireAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Auth routes
+  app.use("/api/auth", authRouter);
+  
+  // Users route (protected)
+  app.get("/api/users", requireAuth, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      const usersWithoutPassword = users.map(({ password_hash, ...user }) => user);
+      res.json({ 
+        success: true, 
+        users: usersWithoutPassword,
+        total: usersWithoutPassword.length 
+      });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Erro ao buscar usuários" 
+      });
+    }
+  });
+  
   app.post("/api/leads", async (req, res) => {
     try {
       const validatedData = insertLeadSchema.parse(req.body);
