@@ -102,14 +102,14 @@ export default function Landing() {
       </div>
 
       <div className="relative z-10">
-        <header className="container mx-auto px-6 py-8">
+        <header className="container mx-auto px-4 md:px-6 py-4 md:py-8">
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center space-x-3">
               {settings?.logo_path && (
                 <img
                   src={settings.logo_path}
                   alt="Logo"
-                  className="h-12 w-auto object-contain"
+                  className="h-8 md:h-10 lg:h-12 w-auto max-w-[200px] md:max-w-none object-contain"
                   data-testid="logo-image"
                 />
               )}
