@@ -2,11 +2,17 @@
 
 ## Overview
 
-This is a single-page lead capture application designed for barbershops and salons. The application collects visitor information (name, email, WhatsApp) in exchange for a free e-book titled "7 Dicas Infalíveis para Lotar sua Agenda" (7 Foolproof Tips to Fill Your Schedule). The landing page features a conversion-focused design with a split-screen layout on desktop, professional aesthetics inspired by high-converting SaaS landing pages, and automatic e-book download upon form submission.
+This is a full-stack lead capture and admin application designed for barbershops and salons. The application consists of:
+
+1. **Public Landing Page**: Collects visitor information (name, email, WhatsApp) in exchange for a free e-book titled "7 Dicas Infalíveis para Lotar sua Agenda"
+2. **Admin Dashboard**: Protected area with MySQL authentication, sidebar navigation, and management pages for users and leads
+
+The landing page features a conversion-focused design with a split-screen layout on desktop, professional aesthetics with black/neutral color scheme and yellow accents, and automatic e-book download upon form submission.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Color scheme: Black/neutral backgrounds with yellow primary color (no blue)
 
 ## System Architecture
 
@@ -21,6 +27,7 @@ Preferred communication style: Simple, everyday language.
 
 **Design System:**
 - Custom Tailwind configuration with semantic color tokens (HSL-based)
+- Color palette: Black/neutral backgrounds (hue 0), yellow primary (hue 45)
 - Poppins font family from Google Fonts for modern, geometric sans-serif typography
 - Responsive spacing system using Tailwind utilities (p-4, p-6, p-8, p-10)
 - Split-screen architecture: 50/50 layout on desktop, stacked on mobile
@@ -53,16 +60,18 @@ Preferred communication style: Simple, everyday language.
 2. `GET /api/ebook/download` - Serves the PDF e-book file with proper headers for download
 
 **Data Storage:**
-- In-memory storage implementation (MemStorage class) for development
-- Interface-based storage design (IStorage) for easy swapping to database implementation
+- MySQL storage implementation (MySQLStorage class)
+- Interface-based storage design (IStorage) with methods for leads and users
 - UUID-based lead IDs using Node.js crypto module
+- Bcrypt password hashing for user authentication
 
 ### Database Schema
 
-**Drizzle ORM Configuration:**
-- PostgreSQL dialect configured for production use
-- Schema defined in `shared/schema.ts` for sharing between client and server
-- Drizzle Kit for migrations (output to `./migrations` directory)
+**Database Configuration:**
+- MySQL database (remote server via .env configuration)
+- Direct mysql2 connection pool (no ORM for production)
+- Tables: `leads` (id, name, email, whatsapp, created_at) and `users` (id, username, password_hash, name, email, role, created_at)
+- Schema defined in `shared/schema.ts` for type safety
 
 **Leads Table Structure:**
 - `id`: UUID primary key with auto-generation
@@ -117,8 +126,14 @@ Preferred communication style: Simple, everyday language.
 
 2. **Type Safety**: Full TypeScript coverage with shared types between frontend and backend via the shared directory
 
-3. **Data Flow**: Unidirectional data flow - form submission → validation → API call → storage → file download trigger
+3. **Data Flow**: Unidirectional data flow - form submission → validation → API call → MySQL storage → file download trigger
 
-4. **Scalability Pattern**: Storage abstraction layer allows seamless transition from in-memory to PostgreSQL without changing business logic
+4. **Authentication**: Express-session based authentication with bcrypt password hashing, protected routes via middleware
 
-5. **Portuguese Localization**: All user-facing content in Brazilian Portuguese (pt-BR) including metadata, form labels, and validation messages
+5. **Admin Dashboard**: Shadcn sidebar navigation with three pages (Dashboard, Leads, Usuários), logout functionality
+
+6. **Database**: MySQL connection via environment variables, tables created on initialization, default admin user (username: admin, password: admin123)
+
+7. **Portuguese Localization**: All user-facing content in Brazilian Portuguese (pt-BR) including metadata, form labels, and validation messages
+
+8. **Color Scheme**: Black/neutral theme (hue 0) with yellow accents (hue 45), no blue colors

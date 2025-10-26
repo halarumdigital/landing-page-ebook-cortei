@@ -75,7 +75,7 @@ export default function Landing() {
         }}
       />
       
-      <div className="absolute inset-0 bg-blue-800/80" />
+      <div className="absolute inset-0 bg-black/80" />
 
       <div className="absolute top-6 left-6 opacity-50 pointer-events-none">
         <div className="w-10 h-10 grid grid-cols-4 gap-1">
