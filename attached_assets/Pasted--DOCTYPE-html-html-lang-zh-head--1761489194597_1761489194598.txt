@@ -1,0 +1,223 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Page 1</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                    .iframe-outer {
+                      position: fixed;
+                      top: 0;
+                      left: 0;
+                      bottom: 0;
+                      right: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #E0E0E0;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      margin: 0 auto;
+                      transform-origin: center top;
+                      flex-shrink: 0;
+                    }
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'page_1': 'Page 1'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Captura Barbearia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./assets/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;amp;display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: &#39;Poppins&#39;, sans-serif;
+    }
+    /* Simple decorative elements for visual appeal, similar to the original design */
+    body::before {
+        content: &#39;&#39;;
+        position: absolute;
+        top: 10%;
+        left: 5%;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle, white 2px, transparent 2.5px);
+        background-size: 10px 10px;
+        opacity: 0.5;
+        z-index: 5;
+    }
+     body::after {
+        content: &#39;&#39;;
+        position: absolute;
+        bottom: 10%;
+        right: 5%;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle, white 2px, transparent 2.5px);
+        background-size: 10px 10px;
+        opacity: 0.5;
+        z-index: 5;
+    }
+</style>
+  </head>
+  <body class="bg-gray-900 font-poppins">
+    <div class="relative min-h-screen bg-cover bg-center" style="background-image: url(&#39;https://placehold.co/1920x1080.png?text=Modern+Barbershop+Interior&#39;);" id="id39">
+      <div class="absolute inset-0 bg-blue-800/80 i9pv spark-custom-i9pv" id="i9pv"></div>
+      <div class="relative z-10">
+        <div data-section-id="Header" data-section-type="header" class="i2wh spark-custom-i2wh" id="i2wh" style="width: 100%">
+          <header class="container mx-auto px-6 py-8">
+            <div class="flex items-center justify-between text-white">
+              <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-original="&amp;lt;span class=&amp;quot;iconify w-10 h-10 text-white&amp;quot; data-icon=&amp;quot;mdi:chart-bar-stacked&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;" class="iconify w-10 h-10 text-white">
+                  <path fill="currentColor" d="M22 21H2V3h2v16h2v-2h4v2h2v-3h4v3h2v-2h4zm-4-7h4v2h-4zm-6-8h4v3h-4zm4 9h-4v-5h4zM6 10h4v2H6zm4 6H6v-3h4z"></path></svg><span class="text-xl font-bold tracking-wider">BARBEARIA MODERNA</span>
+              </div>
+              <nav class="hidden md:flex items-center space-x-8"></nav>
+              <button class="md:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-original="&amp;lt;span class=&amp;quot;iconify w-6 h-6 text-white&amp;quot; data-icon=&amp;quot;mdi:menu&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;" class="iconify w-6 h-6 text-white">
+                  <path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path>
+                </svg>
+              </button>
+            </div>
+          </header>
+        </div>
+        <div data-section-id="CaptureSection" data-section-type="section" id="ixgsr" style="width: 100%">
+          <main class="container mx-auto px-6 py-12 lg:py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div class="text-white">
+                <p class="font-semibold tracking-widest text-sm mb-4">
+                  AULA GRATUITA
+                </p>
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+                  Aprenda as Técnicas que Vão Revolucionar sua Barbearia
+                </h1>
+                <h2 class="text-2xl font-semibold mb-6">
+                  Seus cortes estão realmente atraindo novos clientes?
+                </h2>
+                <p class="text-base leading-relaxed mb-6">
+                  Sua barbearia não pode mais ser reativa. Nós realizamos
+                  pesquisas constantes para descobrir o que gera os melhores
+                  resultados e o que é perda de tempo, para que você possa ser
+                  proativo. Seja para ajustar as técnicas para o próximo
+                  semestre ou já planejar o próximo ano, ter o método certo é
+                  essencial.
+                </p>
+                <p class="text-base leading-relaxed">
+                  Nossos especialistas estão aqui para responder a todas as suas
+                  perguntas nesta aula gratuita, focando em criar um serviço de
+                  barbearia que impulsiona os resultados e fideliza clientes.
+                </p>
+              </div>
+              <div class="bg-white rounded-xl shadow-2xl p-8 md:p-10">
+                <h3 class="font-bold text-lg text-gray-800 mb-6">
+                  INSCREVA-SE PARA A AULA
+                </h3>
+                <form action="#" method="POST">
+                  <div class="space-y-6">
+                    <div>
+                      <label for="full-name" class="sr-only">Nome completo*</label><input type="text" name="full-name" id="full-name" placeholder="Nome completo*" required="" class="w-full bg-gray-100 border-transparent rounded-lg p-4 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <div>
+                      <label for="email-address" class="sr-only">Email*</label><input type="email" name="email-address" id="email-address" placeholder="Email*" required="" class="w-full bg-gray-100 border-transparent rounded-lg p-4 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <div>
+                      <label for="whatsapp" class="sr-only">WhatsApp com DDD*</label><input type="tel" name="whatsapp" id="whatsapp" placeholder="WhatsApp com DDD*" required="" class="w-full bg-gray-100 border-transparent rounded-lg p-4 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <button type="submit" class="w-full bg-yellow-500 text-white font-bold py-4 px-4 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out shadow-md">
+                      GARANTIR MINHA VAGA
+                    </button>
+                  </div>
+                </form>
+                <p class="text-center text-xs text-gray-500 mt-6">
+                  Inscreva-se para assistir a aula e receber notificações quando
+                  postarmos novos conteúdos ou promoções.
+                </p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script>
+/* Page-specific JavaScript here */
+</script>
+  
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            
