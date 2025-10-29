@@ -199,10 +199,10 @@ export default function Landing() {
               ) : (
                 <>
                   <div className="text-center mb-8">
-                    <h3 className="font-black text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-600 uppercase tracking-tight leading-tight" data-testid="text-form-title">
+                    <h3 className="font-black text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-600 uppercase tracking-tight leading-tight" data-testid="text-form-title">
                       {settings?.site_title || 'BAIXE SEU E-BOOK GRÁTIS'}
                     </h3>
-                    <div className="mt-2 h-1 w-20 bg-gradient-to-r from-primary to-yellow-600 mx-auto rounded-full"></div>
+                    <div className="mt-2 h-1 w-20 bg-gradient-to-r from-primary to-orange-600 mx-auto rounded-full"></div>
                   </div>
 
                   <Form {...form}>
