@@ -124,7 +124,7 @@ export default function Landing() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-sm font-medium text-white">+ de mil agendamentos feitos</span>
+                  <span className="text-sm font-medium text-white">+ de 1000 agendamentos feitos</span>
                 </div>
 
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
@@ -280,7 +280,8 @@ export default function Landing() {
 
                   <p className="text-center text-xs text-gray-500 mt-6" data-testid="text-disclaimer">
                     Seja um dos primeiros a testar o sistema que enche agendas automaticamente.<br />
-                    As vagas antecipadas são limitadas.
+                    As vagas antecipadas são limitadas.<br />
+                    <strong className="text-gray-700">As primeiras contas terão 30 dias de acesso gratuito.</strong>
                   </p>
                 </>
               )}
