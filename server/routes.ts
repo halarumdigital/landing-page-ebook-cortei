@@ -292,8 +292,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Site Settings routes (protected)
-  app.get("/api/settings", requireAuth, async (req, res) => {
+  // Site Settings routes - GET is public, POST/PUT are protected
+  app.get("/api/settings", async (req, res) => {
     try {
       const settings = await storage.getSiteSettings();
       res.json({
