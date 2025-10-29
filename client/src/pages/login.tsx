@@ -127,11 +127,6 @@ export default function Login() {
               </Button>
             </form>
           </Form>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Credenciais padrão:</p>
-            <p className="font-mono mt-1">admin / admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>

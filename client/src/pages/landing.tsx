@@ -48,17 +48,10 @@ export default function Landing() {
     onSuccess: () => {
       setIsSuccess(true);
       form.reset();
-      
-      const link = document.createElement("a");
-      link.href = "/api/ebook/download";
-      link.download = "7-Dicas-Infaliveis-para-Lotar-sua-Agenda.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
 
       toast({
         title: "Sucesso!",
-        description: "Seu e-book está sendo baixado. Verifique sua pasta de downloads.",
+        description: "Cadastro confirmado! Bem-vindo à lista de espera da Cortei AI.",
       });
     },
     onError: () => {
@@ -103,17 +96,15 @@ export default function Landing() {
 
       <div className="relative z-10">
         <header className="container mx-auto px-4 md:px-6 py-4 md:py-8">
-          <div className="flex items-center justify-between text-white">
-            <div className="flex items-center space-x-3">
-              {settings?.logo_path && (
-                <img
-                  src={settings.logo_path}
-                  alt="Logo"
-                  className="h-8 md:h-10 lg:h-12 w-auto max-w-[200px] md:max-w-none object-contain"
-                  data-testid="logo-image"
-                />
-              )}
-            </div>
+          <div className="flex items-center justify-center text-white">
+            {settings?.logo_path && (
+              <img
+                src={settings.logo_path}
+                alt="Logo"
+                className="h-8 md:h-10 lg:h-12 w-auto max-w-[200px] md:max-w-none object-contain"
+                data-testid="logo-image"
+              />
+            )}
           </div>
         </header>
 
@@ -154,8 +145,8 @@ export default function Landing() {
                 </div>
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold leading-tight" data-testid="text-headline">
-                {settings?.hero_title || '7 Dicas Infalíveis para Lotar sua Agenda de Clientes'}
+              <h1 className="text-3xl md:text-4xl font-bold leading-tight uppercase" data-testid="text-headline">
+                {settings?.hero_title || 'Garanta seu acesso antecipado ao Cortei AI'}
               </h1>
 
               <h2 className="text-2xl font-semibold" data-testid="text-subheadline">
@@ -178,36 +169,31 @@ export default function Landing() {
             <div className="bg-white rounded-xl shadow-2xl p-8 md:p-10 w-full max-w-md">
               {isSuccess ? (
                 <div className="text-center space-y-6" data-testid="success-message">
-                  <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">
-                    <svg
-                      className="w-10 h-10 text-primary-foreground"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
+                  <div className="text-6xl">🎉</div>
                   <h3 className="font-bold text-2xl text-gray-800">
-                    E-book Baixado!
+                    Cadastro confirmado!
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Obrigado por se inscrever! Seu e-book "7 Dicas Infalíveis
-                    para Lotar sua Agenda" está sendo baixado. Boa leitura e
-                    sucesso nos seus negócios!
-                  </p>
+                  <div className="text-gray-700 leading-relaxed space-y-4 text-left">
+                    <p>
+                      Você acabou de garantir sua vaga na lista de espera da <strong>Cortei AI</strong>!
+                    </p>
+                    <p>
+                      O sistema que vai automatizar o agendamento e a gestão do seu salão ou barbearia direto pelo WhatsApp.
+                    </p>
+                    <p>
+                      Os primeiros a entrar na comunidade vão receber notícias, atualizações exclusivas e acesso antecipado assim que o sistema for liberado.
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <span>👉</span>
+                      <span>Toque no botão abaixo para entrar na comunidade oficial no WhatsApp e não perder nada.</span>
+                    </p>
+                  </div>
                   <Button
-                    onClick={() => setIsSuccess(false)}
-                    variant="outline"
+                    onClick={() => window.open('https://chat.whatsapp.com/Bj297KzNO3sE7FRL5VZIoC?mode=wwt', '_blank')}
                     className="w-full"
-                    data-testid="button-download-again"
+                    data-testid="button-whatsapp-community"
                   >
-                    Baixar Novamente
+                    Entrar na Comunidade Cortei AI no WhatsApp
                   </Button>
                 </div>
               ) : (
@@ -287,14 +273,14 @@ export default function Landing() {
                         disabled={submitLead.isPending}
                         data-testid="button-submit"
                       >
-                        {submitLead.isPending ? "ENVIANDO..." : "BAIXAR E-BOOK GRÁTIS"}
+                        {submitLead.isPending ? "ENVIANDO..." : "ENTRAR NA LISTA DE ESPERA"}
                       </Button>
                     </form>
                   </Form>
 
                   <p className="text-center text-xs text-gray-500 mt-6" data-testid="text-disclaimer">
-                    Ao baixar o e-book, você concorda em receber comunicações sobre
-                    novos conteúdos e dicas para o seu negócio.
+                    Seja um dos primeiros a testar o sistema que enche agendas automaticamente.<br />
+                    As vagas antecipadas são limitadas.
                   </p>
                 </>
               )}
