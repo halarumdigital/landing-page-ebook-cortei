@@ -118,13 +118,43 @@ export default function Landing() {
         </header>
 
         <main className="container mx-auto px-6 py-12 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="text-white space-y-6">
-              <p className="font-semibold tracking-widest text-sm uppercase" data-testid="text-eyebrow">
-                E-BOOK GRATUITO
-              </p>
+          <div className="flex flex-col items-center">
+            <div className="text-white space-y-6 text-center max-w-4xl mb-12">
+              <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-4 h-4 fill-primary"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium text-white">+ de mil agendamentos feitos</span>
+                </div>
 
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight" data-testid="text-headline">
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                  <svg
+                    className="w-4 h-4 text-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium text-white">+ de 200 barbearias</span>
+                </div>
+              </div>
+
+              <h1 className="text-3xl md:text-4xl font-bold leading-tight" data-testid="text-headline">
                 {settings?.hero_title || '7 Dicas Infalíveis para Lotar sua Agenda de Clientes'}
               </h1>
 
@@ -132,16 +162,20 @@ export default function Landing() {
                 {settings?.hero_subtitle || 'Sua barbearia ou salão está realmente atraindo novos clientes?'}
               </h2>
 
-              <p className="text-base leading-relaxed" data-testid="text-description-1">
-                {settings?.hero_text_1 || 'Sua barbearia ou salão não pode mais ser reativo. Nós realizamos pesquisas constantes para descobrir o que gera os melhores resultados e o que é perda de tempo, para que você possa ser proativo. Seja para ajustar as estratégias para o próximo semestre ou já planejar o próximo ano, ter o método certo é essencial.'}
-              </p>
+              {settings?.hero_text_1 && settings.hero_text_1.trim() !== '' && (
+                <p className="text-base leading-relaxed" data-testid="text-description-1">
+                  {settings.hero_text_1}
+                </p>
+              )}
 
-              <p className="text-base leading-relaxed" data-testid="text-description-2">
-                {settings?.hero_text_2 || 'Nossos especialistas compilaram as 7 dicas mais eficazes neste e-book gratuito, focando em criar um serviço de barbearia ou salão que impulsiona os resultados e fideliza clientes.'}
-              </p>
+              {settings?.hero_text_2 && settings.hero_text_2.trim() !== '' && (
+                <p className="text-base leading-relaxed" data-testid="text-description-2">
+                  {settings.hero_text_2}
+                </p>
+              )}
             </div>
 
-            <div className="bg-white rounded-xl shadow-2xl p-8 md:p-10">
+            <div className="bg-white rounded-xl shadow-2xl p-8 md:p-10 w-full max-w-md">
               {isSuccess ? (
                 <div className="text-center space-y-6" data-testid="success-message">
                   <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto">

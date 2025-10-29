@@ -414,25 +414,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      if (!hero_text_1 || typeof hero_text_1 !== 'string') {
-        return res.status(400).json({
-          success: false,
-          message: "Texto principal (parágrafo 1) é obrigatório"
-        });
-      }
-
-      if (!hero_text_2 || typeof hero_text_2 !== 'string') {
-        return res.status(400).json({
-          success: false,
-          message: "Texto principal (parágrafo 2) é obrigatório"
-        });
-      }
-
+      // hero_text_1 e hero_text_2 são opcionais
       await storage.updateLandingTexts({
         hero_title,
         hero_subtitle,
-        hero_text_1,
-        hero_text_2
+        hero_text_1: hero_text_1 || '',
+        hero_text_2: hero_text_2 || ''
       });
 
       res.json({

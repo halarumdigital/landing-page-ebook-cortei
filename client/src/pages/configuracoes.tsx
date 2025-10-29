@@ -299,7 +299,7 @@ export default function Configuracoes() {
 
   const handleLandingTextsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (heroTitle && heroSubtitle && heroText1 && heroText2) {
+    if (heroTitle && heroSubtitle) {
       updateLandingTextsMutation.mutate({
         hero_title: heroTitle.trim(),
         hero_subtitle: heroSubtitle.trim(),
@@ -426,7 +426,7 @@ export default function Configuracoes() {
 
             <Button
               type="submit"
-              disabled={!heroTitle || !heroSubtitle || !heroText1 || !heroText2 || updateLandingTextsMutation.isPending}
+              disabled={!heroTitle || !heroSubtitle || updateLandingTextsMutation.isPending}
             >
               {updateLandingTextsMutation.isPending ? "Salvando..." : "Salvar Textos"}
             </Button>
